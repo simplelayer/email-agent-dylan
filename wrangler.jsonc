@@ -1,0 +1,59 @@
+// wrangler.jsonc — the configuration file for this Cloudflare Worker.
+// Think of it like package.json, but for how the Worker runs on Cloudflare.
+{
+  // The Worker's name. It becomes part of the public URL:
+  // https://email-agent.<your-subdomain>.workers.dev
+  "name": "email-agent-dylan",
+
+  // The entry point — the file Cloudflare runs when a request comes in.
+  "main": "src/index.ts",
+
+  // Pins the Workers runtime behavior to this date, so future platform
+  // changes never silently alter how this code runs.
+  "compatibility_date": "2026-08-11",
+
+  // The Composio SDK expects a few Node.js built-ins (crypto, buffer, ...).
+  // This flag tells the Workers runtime to provide them.
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Note: who may talk to the agent is controlled by the ALLOWED_SENDERS
+  // secret (comma-separated email addresses), set the same way as the API
+  // keys: `npx wrangler secret put ALLOWED_SENDERS` or in the dashboard.
+  // It lives as a secret, not here, so nobody's email ends up in git.
+
+  // A Durable Object is a tiny stateful mini-server with its own private
+  // SQLite database. We create one per email thread — it remembers the
+  // conversation history and makes sure duplicate webhook deliveries and
+  // reply limits are handled in exactly one place.
+  "durable_objects": {
+    "bindings": [
+      {
+        // How the Worker code refers to it: env.EMAIL_AGENT
+        "name": "EMAIL_AGENT",
+        // The exported class in src/index.ts that implements it.
+        "class_name": "EmailAgent"
+      }
+    ]
+  },
+
+  // Tells Cloudflare "the EmailAgent class exists and uses SQLite storage".
+  // Migrations are append-only history — never edit an existing tag.
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["EmailAgent"]
+    }
+  ],
+
+  // The agentmail SDK optionally imports a crypto-payments helper we never
+  // use; point the bundler at a local stub so the build succeeds.
+  "alias": {
+    "@x402/fetch": "./src/stubs/x402-fetch.ts"
+  },
+
+  // Ship console.log output to the Cloudflare dashboard, and make
+  // `wrangler tail` (live log streaming) work well.
+  "observability": {
+    "enabled": true
+  }
+}

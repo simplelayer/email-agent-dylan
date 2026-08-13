@@ -1,0 +1,23 @@
+// Configuration for GitHub Codespaces (and any devcontainer-compatible
+// editor): open this repo in a Codespace and you get a ready-to-use
+// terminal with Node.js preinstalled and dependencies already installed —
+// nothing to install on your own computer.
+{
+  "name": "email-agent",
+
+  // A standard image with Node.js 22 (LTS) preinstalled.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+
+  // Run once when the Codespace is created, so `npx tsx scripts/setup.ts`
+  // and `npm run local` work immediately.
+  "postCreateCommand": "npm install",
+
+  "customizations": {
+    "vscode": {
+      // Open the two files people actually need on first launch.
+      "settings": {
+        "workbench.startupEditor": "readme"
+      }
+    }
+  }
+}

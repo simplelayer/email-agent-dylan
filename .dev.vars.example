@@ -1,0 +1,26 @@
+# Copy this file to .dev.vars (same folder) and fill in real values.
+# .dev.vars is used by `wrangler dev` for local development and is gitignored —
+# it must NEVER be committed.
+#
+# For the deployed Worker, set the same four values as secrets instead:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put AGENTMAIL_API_KEY
+#   npx wrangler secret put COMPOSIO_API_KEY
+#   npx wrangler secret put AGENTMAIL_WEBHOOK_SECRET
+
+# Who may talk to the agent when running locally (npm run local).
+# Comma-separated emails; empty = everyone. The deployed Worker uses the
+# ALLOWED_SENDERS value in wrangler.jsonc instead.
+ALLOWED_SENDERS=you@example.com
+
+# From https://console.anthropic.com → API keys
+ANTHROPIC_API_KEY=
+
+# From https://app.agentmail.to → API keys
+AGENTMAIL_API_KEY=
+
+# From https://app.composio.dev → Settings → API keys
+COMPOSIO_API_KEY=
+
+# Printed by `npm run setup` when it creates the webhook (Stage 2)
+AGENTMAIL_WEBHOOK_SECRET=

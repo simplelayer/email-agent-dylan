@@ -1,0 +1,27 @@
+{
+  "name": "email-agent-dylan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An AI agent you talk to by email. Cloudflare Worker + AgentMail + Composio + Claude.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "setup": "tsx scripts/setup.ts",
+    "teardown": "tsx scripts/teardown.ts",
+    "local": "tsx src/local.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260811.1",
+    "@types/node": "^26.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.120.1"
+  },
+  "dependencies": {
+    "@composio/anthropic": "^0.10.1",
+    "@composio/core": "^0.16.0",
+    "agentmail": "^0.5.19"
+  }
+}

@@ -1,0 +1,15 @@
+// The setup/teardown scripts run in Node.js on your machine (not in the
+// Workers runtime), so they get their own TypeScript config with Node types.
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2022"],
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["./*.ts", "../src/local.ts"]
+}
